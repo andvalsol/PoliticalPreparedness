@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="singleElection"
+            type="com.luthiers.udacitykotlincapstone.data.models.SingleElection" />
+
+        <variable
+            name="viewModel"
+            type="com.luthiers.udacitykotlincapstone.viewModels.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".views.SingleElectionFragment">
+
+        <TextView
+            android:id="@+id/tv_election_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{singleElection.name}"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Presidential election" />
+
+        <TextView
+            android:id="@+id/tv_election_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{singleElection.electionDay}"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_election_name"
+            tools:text="20-09-2022" />
+
+        <Button
+            android:id="@+id/btn_save_election"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            android:background="@android:color/holo_green_dark"
+            android:onClick="@{() -> viewModel.toggleElectionAsSaved(singleElection)}"
+            android:text="@{(singleElection.isSaved() == 1) ? @string/unfollow_election : @string/follow_election}"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

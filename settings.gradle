@@ -1,0 +1,2 @@
+rootProject.name='UdacityKotlinCapstone'
+include ':app'

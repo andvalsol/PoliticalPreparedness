@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.luthiers.udacitykotlincapstone.viewModels.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_vote"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:contentDescription="@string/vote_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_vote" />
+
+        <Button
+            android:id="@+id/btn_upcoming_elections"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            android:onClick="@{(view) -> viewModel.openUpcomingElections(view)}"
+            android:background="@android:color/holo_green_dark"
+            android:text="@string/upcoming_elections"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/btn_find_representatives"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_find_representatives"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            android:onClick="@{(view) -> viewModel.openMyRepresentatives(view)}"
+            android:background="@android:color/holo_green_dark"
+            android:text="@string/find_representative"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

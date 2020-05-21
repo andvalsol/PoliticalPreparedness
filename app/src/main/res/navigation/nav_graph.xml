@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.luthiers.udacitykotlincapstone.views.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_upcomingElectionsFragment"
+            app:destination="@id/upcomingElectionsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_myRepresentativesFragment"
+            app:destination="@id/myRepresentativesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myRepresentativesFragment"
+        android:name="com.luthiers.udacitykotlincapstone.views.MyRepresentativesFragment"
+        android:label="fragment_my_representatives"
+        tools:layout="@layout/fragment_my_representatives" />
+    <fragment
+        android:id="@+id/upcomingElectionsFragment"
+        android:name="com.luthiers.udacitykotlincapstone.views.UpcomingElectionsFragment"
+        android:label="fragment_upcoming_elections"
+        tools:layout="@layout/fragment_upcoming_elections" >
+        <action
+            android:id="@+id/action_upcomingElectionsFragment_to_singleElectionFragment"
+            app:destination="@id/singleElectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/singleElectionFragment"
+        android:name="com.luthiers.udacitykotlincapstone.views.SingleElectionFragment"
+        android:label="fragment_single_election"
+        tools:layout="@layout/fragment_single_election" >
+        <argument
+            android:name="singleElection"
+            app:argType="com.luthiers.udacitykotlincapstone.data.models.SingleElection" />
+    </fragment>
+</navigation>
