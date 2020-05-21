@@ -2,22 +2,41 @@ package com.luthiers.udacitykotlincapstone.views.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.luthiers.udacitykotlincapstone.R
 import com.luthiers.udacitykotlincapstone.data.models.SingleRepresentative
 import com.luthiers.udacitykotlincapstone.databinding.SingleRepresentativeBinding
 
 class MyRepresentativesAdapter: RecyclerView.Adapter<MyRepresentativesAdapter.MyRepresentativesViewHolder>() {
 
+    companion object {
+        @JvmStatic @BindingAdapter("imageUrl")
+        fun loadImage(view: ImageView, url: String?) {
+            Glide
+                .with(view.context)
+                .load(url ?: "")
+                .apply(RequestOptions()
+                    .placeholder(R.drawable.ic_launcher_foreground))
+                .into(view)
+        }
+    }
+
     private val representatives = mutableListOf<SingleRepresentative>()
 
     internal fun addRepresentatives(representatives: List<SingleRepresentative>) {
         this.representatives.addAll(representatives)
+
+        notifyDataSetChanged()
     }
 
     inner class MyRepresentativesViewHolder(val binding: SingleRepresentativeBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(singleRepresentative: SingleRepresentative) {
+        fun bind(representative: SingleRepresentative) {
             with(binding) {
-                this.singleRepresentative = singleRepresentative
+                singleRepresentative = representative
 
                 executePendingBindings()
             }

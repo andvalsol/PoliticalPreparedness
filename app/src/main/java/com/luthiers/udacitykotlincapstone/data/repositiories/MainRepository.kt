@@ -22,8 +22,8 @@ class MainRepository(
     fun getSavedElections() =
         savedElectionsDao.getSavedElections()
 
-    suspend fun getOfficialsAsync(address: Address) =
-        networkDataSource.getOfficialsAsync(address)
+    suspend fun getOfficialsAsync(location: String) =
+        networkDataSource.getOfficialsAsync(location)
 
     /**
      * Function that saved a [SingleElection] as a saved election inside the

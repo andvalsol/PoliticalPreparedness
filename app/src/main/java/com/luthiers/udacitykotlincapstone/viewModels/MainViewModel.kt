@@ -10,7 +10,6 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.*
@@ -28,14 +27,15 @@ import com.luthiers.udacitykotlincapstone.views.UpcomingElectionsFragmentDirecti
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.util.*
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel(private val _application: Application) : AndroidViewModel(_application) {
 
     private val mainRepository =
         MainRepository(
             NetworkDataSource(retrofit.create(INetworkDataSource::class.java)),
-            SingleElectionRoomDatabase.getDatabase(application).singleElectionDao()
+            SingleElectionRoomDatabase.getDatabase(_application).singleElectionDao()
         )
 
     val elections = liveData(Dispatchers.IO) {
@@ -56,14 +56,33 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         liveData { emitSource(mainRepository.getElection(it)) }
     }
 
+    private val _location = MutableLiveData<String>()
+
+    private val _timer = Timer()
+
+    val representatives: LiveData<List<SingleRepresentative>> = _location.switchMap {
+        liveData(Dispatchers.IO) {
+            _isLoading.postValue(true)
+            try {
+                val result = mainRepository.getOfficialsAsync(it)
+
+                emit(result.officials)
+            } catch (e: HttpException) {
+                if (e.code() == 404) {
+                    val errorMessage = _application.baseContext.getString(R.string.no_results_found)
+                    _error.postValue(errorMessage)
+                }
+            } finally {
+                _isLoading.postValue(false)
+            }
+        }
+    }
+
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-
-    private val _representatives = MutableLiveData<List<SingleRepresentative>>()
-    val representatives: LiveData<List<SingleRepresentative>> = _representatives
 
     @Suppress("USELESS_CAST")
     val savedElections =
@@ -81,6 +100,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setElectionID(id: String) {
         _electionID.value = id
+    }
+
+    fun setQueryLocation(location: String) {
+        // Add a delay for the user location parameter
+        _timer.schedule(object: TimerTask() {
+            override fun run() {
+                _location.postValue(location)
+            }
+        }, 350) // Add a delay of 350ms
     }
 
     fun toggleElectionAsSaved(singleElection: SingleElection) {
@@ -130,18 +158,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                                 location.latitude,
                                 location.longitude
                             )
-                            address?.let { getRepresentatives(it) }
-                        } else {
-                            _error.value = "There was a error getting your current location"
-                        }
-                        // Fetch the representatives
-                        Log.d(
-                            "Representatives",
-                            "The location lat is ${location.latitude} and the location longitude is ${location.longitude}"
-                        )
-                    } else {
-                        _error.value = task.exception?.localizedMessage
-                    }
+                            address?.let { _location.value = it.locality }
+                        } else _error.value =
+                            _application.baseContext.getString(R.string.error_getting_current_location)
+
+                    } else _error.value = task.exception?.localizedMessage
                 }
             } else {
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
@@ -166,18 +187,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         ) // Set max results to be 1 since we only want one result
 
         return if (address.isNotEmpty()) address[0] else null
-    }
-
-    private fun getRepresentatives(address: Address) {
-        _isLoading.value = true
-
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = mainRepository.getOfficialsAsync(address)
-
-            _isLoading.postValue(false)
-
-            _representatives.postValue(result.officials)
-        }
     }
 
     private fun checkPermissions(context: Context) =

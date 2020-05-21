@@ -20,7 +20,7 @@ interface INetworkDataSource {
     @GET("elections/?key=$API_KEY")
     suspend fun getElectionsAsync(): ElectionsResponse
 
-    @GET("representatives")
+    @GET("representatives/?key=$API_KEY")
     suspend fun getOfficialsAsync(@Query("address") address: String): Officials
 }
 
@@ -28,6 +28,6 @@ class NetworkDataSource(private val retrofit: INetworkDataSource) {
     suspend fun getElections() =
         retrofit.getElectionsAsync()
 
-    suspend fun getOfficialsAsync(address: Address) =
-        retrofit.getOfficialsAsync(address.locality)
+    suspend fun getOfficialsAsync(location: String) =
+        retrofit.getOfficialsAsync(location)
 }

@@ -3,8 +3,13 @@
     <string name="vote_image">Vote image</string>
     <string name="find_representative">Find my representative</string>
     <string name="use_location">Use location</string>
+    <string name="use_my_location">Use my location</string>
     <string name="upcoming_elections">Upcoming elections</string>
     <string name="saved_elections">Saved elections</string>
     <string name="follow_election">FOLLOW ELECTION</string>
     <string name="unfollow_election">UNFOLLOW ELECTION</string>
+    <string name="no_results_found">Sorry, there are no results for this address</string>
+    <string name="error_getting_current_location">There was a error getting your current location</string>
+    <string name="insert_location">Insert location</string>
+    <string name="representative_profile_image">Representative profile image</string>
 </resources>

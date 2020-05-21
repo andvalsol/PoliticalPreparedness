@@ -1,16 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="singleRepresentative"
             type="com.luthiers.udacitykotlincapstone.data.models.SingleRepresentative" />
     </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/iv_representative_picture"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:imageUrl="@{singleRepresentative.photoUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/representative_profile_image" />
+
+        <TextView
+            android:id="@+id/tv_representative_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@{singleRepresentative.name}"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_representative_picture"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Barack Obamaa" />
+
+        <TextView
+            android:id="@+id/tv_representative_party"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@{singleRepresentative.party}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_representative_picture"
+            app:layout_constraintTop_toBottomOf="@+id/tv_representative_name"
+            tools:text="Republican party" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

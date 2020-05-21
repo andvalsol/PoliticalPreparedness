@@ -24,37 +24,61 @@ class MyRepresentativesFragment : Fragment() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    private lateinit var _myRepresentativesAdapter: MyRepresentativesAdapter
+
+    private lateinit var binding: FragmentMyRepresentativesBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentMyRepresentativesBinding.inflate(inflater, container, false)
+        binding = FragmentMyRepresentativesBinding.inflate(inflater, container, false)
 
-        val representativesAdapter = MyRepresentativesAdapter()
+        _myRepresentativesAdapter = MyRepresentativesAdapter()
 
         with(binding.rvMyRepresentatives) {
             setHasFixedSize(true)
-            adapter = representativesAdapter
+            adapter = _myRepresentativesAdapter
         }
 
-        viewModel.representatives.observe(viewLifecycleOwner, Observer { representatives ->
-//           representativesAdapter.addRepresentatives(representatives)
-        })
+        with(binding) {
+            btnCurrentLocation.setOnClickListener {
+                viewModel.getLastLocation(
+                    requireActivity(),
+                    fusedLocationClient,
+                    PERMISSION_ID
+                )
+            }
 
-        viewModel.error.observe(viewLifecycleOwner, Observer { errorString ->
-            Toast.makeText(requireContext(), errorString, Toast.LENGTH_LONG).show()
-        })
+            btnUseLocation.setOnClickListener { viewModel.setQueryLocation(etLocation.text.toString()) }
+        }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(viewModel) {
+            error.observe(viewLifecycleOwner, Observer { errorString ->
+                Toast.makeText(requireContext(), errorString, Toast.LENGTH_LONG).show()
+            })
+
+            representatives.observe(viewLifecycleOwner, Observer { representatives ->
+                _myRepresentativesAdapter.addRepresentatives(representatives)
+            })
+
+            isLoading.observe(viewLifecycleOwner, Observer {
+                binding.pbLoading.visibility = if (it) View.VISIBLE else View.GONE
+            })
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Initialize the fusedLocationClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-        viewModel.getLastLocation(requireActivity(), fusedLocationClient, PERMISSION_ID)
     }
 
     override fun onRequestPermissionsResult(
