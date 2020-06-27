@@ -12,7 +12,7 @@
 
         <variable
             name="viewModel"
-            type="com.luthiers.udacitykotlincapstone.viewModels.MainViewModel" />
+            type="com.luthiers.udacitykotlincapstone.viewModels.SingleElectionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

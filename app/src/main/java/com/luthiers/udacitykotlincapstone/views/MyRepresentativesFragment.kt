@@ -13,12 +13,13 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.luthiers.udacitykotlincapstone.databinding.FragmentMyRepresentativesBinding
 import com.luthiers.udacitykotlincapstone.viewModels.MainViewModel
+import com.luthiers.udacitykotlincapstone.viewModels.MyRepresentativesViewModel
 import com.luthiers.udacitykotlincapstone.views.adapters.MyRepresentativesAdapter
 
 
 class MyRepresentativesFragment : Fragment() {
 
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<MyRepresentativesViewModel>()
 
     private val PERMISSION_ID = 7
 

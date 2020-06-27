@@ -11,11 +11,11 @@ import androidx.lifecycle.Observer
 import com.luthiers.udacitykotlincapstone.R
 import com.luthiers.udacitykotlincapstone.data.models.SingleElection
 import com.luthiers.udacitykotlincapstone.databinding.FragmentSingleElectionBinding
-import com.luthiers.udacitykotlincapstone.viewModels.MainViewModel
+import com.luthiers.udacitykotlincapstone.viewModels.SingleElectionViewModel
 
 class SingleElectionFragment : Fragment() {
 
-    private val _viewModel by viewModels<MainViewModel>()
+    private val _viewModel by viewModels<SingleElectionViewModel>()
 
     private lateinit var election: SingleElection
 

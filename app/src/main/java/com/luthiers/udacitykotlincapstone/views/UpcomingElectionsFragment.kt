@@ -12,13 +12,14 @@ import com.luthiers.udacitykotlincapstone.data.models.SingleElection
 
 import com.luthiers.udacitykotlincapstone.databinding.FragmentUpcomingElectionsBinding
 import com.luthiers.udacitykotlincapstone.viewModels.MainViewModel
+import com.luthiers.udacitykotlincapstone.viewModels.UpcomingElectionsViewModel
 import com.luthiers.udacitykotlincapstone.views.adapters.IUpcomingElectionsAdapter
 import com.luthiers.udacitykotlincapstone.views.adapters.ElectionsAdapter
 
 
 class UpcomingElectionsFragment : Fragment(), IUpcomingElectionsAdapter {
 
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<UpcomingElectionsViewModel>()
 
     private lateinit var upcomingElectionsAdapter: ElectionsAdapter
     private lateinit var savedElectionsAdapter: ElectionsAdapter
