@@ -12,4 +12,7 @@
     <string name="error_getting_current_location">There was a error getting your current location</string>
     <string name="insert_location">Insert location</string>
     <string name="representative_profile_image">Representative profile image</string>
+    <string name="facebook_link">Facebook link</string>
+    <string name="twitter_link">Twitter link</string>
+    <string name="email_link">Email link</string>
 </resources>

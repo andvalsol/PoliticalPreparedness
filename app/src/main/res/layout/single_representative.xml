@@ -11,25 +11,25 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_margin="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
 
         <ImageView
             android:id="@+id/iv_representative_picture"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:contentDescription="@string/representative_profile_image"
             app:imageUrl="@{singleRepresentative.photoUrl}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/representative_profile_image" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_representative_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:text="@{singleRepresentative.name}"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_representative_picture"
@@ -40,12 +40,42 @@
             android:id="@+id/tv_representative_party"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
             android:text="@{singleRepresentative.party}"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_representative_picture"
             app:layout_constraintTop_toBottomOf="@+id/tv_representative_name"
             tools:text="Republican party" />
+
+        <ImageButton
+            android:id="@+id/ib_facebook"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/facebook_link"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_representative_party"
+            app:srcCompat="@drawable/ic_facebook" />
+
+        <ImageButton
+            android:id="@+id/ib_twitter"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/twitter_link"
+            android:padding="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/ib_facebook"
+            app:layout_constraintTop_toBottomOf="@+id/tv_representative_party"
+            app:srcCompat="@drawable/ic_twitter" />
+
+        <ImageButton
+            android:id="@+id/ib_email"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/email_link"
+            android:padding="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/ib_twitter"
+            app:layout_constraintTop_toBottomOf="@+id/tv_representative_party"
+            app:srcCompat="@drawable/ic_email" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

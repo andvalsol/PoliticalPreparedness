@@ -1,6 +1,7 @@
 package com.luthiers.udacitykotlincapstone.viewModels
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
@@ -142,6 +143,7 @@ class MainViewModel(private val _application: Application) : AndroidViewModel(_a
         )
     }
 
+    @SuppressLint("MissingPermission")
     fun getLastLocation(
         activity: Activity,
         fusedLocationProviderClient: FusedLocationProviderClient,
