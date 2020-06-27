@@ -10,8 +10,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.luthiers.udacitykotlincapstone.R
 import com.luthiers.udacitykotlincapstone.data.models.SingleRepresentative
 import com.luthiers.udacitykotlincapstone.databinding.SingleRepresentativeBinding
+import com.luthiers.udacitykotlincapstone.viewModels.MyRepresentativesViewModel
 
-class MyRepresentativesAdapter: RecyclerView.Adapter<MyRepresentativesAdapter.MyRepresentativesViewHolder>() {
+class MyRepresentativesAdapter(private val _viewModel: MyRepresentativesViewModel): RecyclerView.Adapter<MyRepresentativesAdapter.MyRepresentativesViewHolder>() {
 
     companion object {
         @JvmStatic @BindingAdapter("imageUrl")
@@ -37,6 +38,7 @@ class MyRepresentativesAdapter: RecyclerView.Adapter<MyRepresentativesAdapter.My
         fun bind(representative: SingleRepresentative) {
             with(binding) {
                 singleRepresentative = representative
+                this.viewModel = _viewModel
 
                 executePendingBindings()
             }

@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.luthiers.udacitykotlincapstone.databinding.FragmentMyRepresentativesBinding
-import com.luthiers.udacitykotlincapstone.viewModels.MainViewModel
 import com.luthiers.udacitykotlincapstone.viewModels.MyRepresentativesViewModel
 import com.luthiers.udacitykotlincapstone.views.adapters.MyRepresentativesAdapter
 
@@ -36,7 +35,7 @@ class MyRepresentativesFragment : Fragment() {
     ): View? {
         binding = FragmentMyRepresentativesBinding.inflate(inflater, container, false)
 
-        _myRepresentativesAdapter = MyRepresentativesAdapter()
+        _myRepresentativesAdapter = MyRepresentativesAdapter(viewModel)
 
         with(binding.rvMyRepresentatives) {
             setHasFixedSize(true)

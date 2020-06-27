@@ -10,12 +10,15 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
+import android.net.Uri
 import android.provider.Settings
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.luthiers.udacitykotlincapstone.R
 import com.luthiers.udacitykotlincapstone.data.local.SingleElectionRoomDatabase
+import com.luthiers.udacitykotlincapstone.data.models.Channel
 import com.luthiers.udacitykotlincapstone.data.models.SingleRepresentative
 import com.luthiers.udacitykotlincapstone.data.network.INetworkDataSource
 import com.luthiers.udacitykotlincapstone.data.network.NetworkDataSource
@@ -25,7 +28,9 @@ import kotlinx.coroutines.Dispatchers
 import retrofit2.HttpException
 import java.util.*
 
-class MyRepresentativesViewModel(private val _application: Application): AndroidViewModel(_application) {
+
+class MyRepresentativesViewModel(private val _application: Application) :
+    AndroidViewModel(_application) {
 
     private val _location = MutableLiveData<String>()
 
@@ -59,6 +64,36 @@ class MyRepresentativesViewModel(private val _application: Application): Android
                 _isLoading.postValue(false)
             }
         }
+    }
+
+    fun openWebsite(view: View, urls: List<String>) {
+        val url = if (urls.isNotEmpty()) urls[0] else return // Grab the first item
+        val i = Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) }
+        view.context.startActivity(i)
+    }
+
+    fun openFacebook(view: View, channels: List<Channel>) {
+        // Get the Facebook channel if there's one
+        val facebookChannel =
+            channels.find { channel -> channel.type == "Facebook" } ?: return
+
+        val i =
+            Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("https://www.facebook.com/${facebookChannel.type}/")
+            }
+        view.context.startActivity(i)
+    }
+
+    fun openTwitter(view: View, channels: List<Channel>) {
+        // Get the Twitter channel if there's one
+        val twitterChannel =
+            channels.find { channel -> channel.type == "Twitter" } ?: return
+
+        val i =
+            Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("https://www.twitter.com/${twitterChannel.id}/")
+            }
+        view.context.startActivity(i)
     }
 
     private fun checkPermissions(context: Context) =
@@ -97,7 +132,7 @@ class MyRepresentativesViewModel(private val _application: Application): Android
 
     fun setQueryLocation(location: String) {
         // Add a delay for the user location parameter
-        _timer.schedule(object: TimerTask() {
+        _timer.schedule(object : TimerTask() {
             override fun run() {
                 _location.postValue(location)
             }
@@ -114,7 +149,6 @@ class MyRepresentativesViewModel(private val _application: Application): Android
             PERMISSION_ID
         )
     }
-
 
 
     @SuppressLint("MissingPermission")
