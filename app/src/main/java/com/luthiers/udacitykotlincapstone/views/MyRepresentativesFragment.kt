@@ -72,6 +72,10 @@ class MyRepresentativesFragment : Fragment() {
             isLoading.observe(viewLifecycleOwner, Observer {
                 binding.pbLoading.visibility = if (it) View.VISIBLE else View.GONE
             })
+
+            location.observe(viewLifecycleOwner, Observer { location ->
+                binding.etLocation.setText(location)
+            })
         }
     }
 

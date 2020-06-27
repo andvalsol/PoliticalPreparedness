@@ -33,6 +33,7 @@ class MyRepresentativesViewModel(private val _application: Application) :
     AndroidViewModel(_application) {
 
     private val _location = MutableLiveData<String>()
+    val location: LiveData<String> = _location
 
     private val mainRepository =
         MainRepository(
