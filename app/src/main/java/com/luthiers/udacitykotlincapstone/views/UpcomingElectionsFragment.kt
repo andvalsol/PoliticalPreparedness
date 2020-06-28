@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luthiers.udacitykotlincapstone.data.models.SingleElection
 
@@ -69,6 +70,12 @@ class UpcomingElectionsFragment : Fragment(), IUpcomingElectionsAdapter {
     }
 
     override fun onSingleElectionClick(view: View, singleElection: SingleElection) {
-        viewModel.openSingleElection(view, singleElection)
+        val directions =
+            UpcomingElectionsFragmentDirections.actionUpcomingElectionsFragmentToSingleElectionFragment(
+                singleElection
+            )
+
+        // Pass the single election into the SingleElectionFragment
+        view.findNavController().navigate(directions)
     }
 }

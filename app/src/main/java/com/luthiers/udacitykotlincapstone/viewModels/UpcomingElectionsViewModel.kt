@@ -1,20 +1,17 @@
 package com.luthiers.udacitykotlincapstone.viewModels
 
 import android.app.Application
-import android.view.View
 import androidx.lifecycle.*
-import androidx.navigation.findNavController
 import com.luthiers.udacitykotlincapstone.data.local.SingleElectionRoomDatabase
 import com.luthiers.udacitykotlincapstone.data.models.SingleElection
 import com.luthiers.udacitykotlincapstone.data.network.INetworkDataSource
 import com.luthiers.udacitykotlincapstone.data.network.NetworkDataSource
 import com.luthiers.udacitykotlincapstone.data.network.retrofit
 import com.luthiers.udacitykotlincapstone.data.repositiories.MainRepository
-import com.luthiers.udacitykotlincapstone.views.UpcomingElectionsFragmentDirections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 
-class UpcomingElectionsViewModel(private val _application: Application): AndroidViewModel(_application) {
+class UpcomingElectionsViewModel(_application: Application): AndroidViewModel(_application) {
 
     private val mainRepository =
         MainRepository(
@@ -40,14 +37,4 @@ class UpcomingElectionsViewModel(private val _application: Application): Android
     @Suppress("USELESS_CAST")
     val savedElections =
         (mainRepository.getSavedElections() as Flow<List<SingleElection>>).asLiveData()
-
-    fun openSingleElection(view: View, singleElection: SingleElection) {
-        val directions =
-            UpcomingElectionsFragmentDirections.actionUpcomingElectionsFragmentToSingleElectionFragment(
-                singleElection
-            )
-
-        // Pass the single election into the SingleElectionFragment
-        view.findNavController().navigate(directions)
-    }
 }
