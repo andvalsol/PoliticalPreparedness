@@ -67,13 +67,13 @@ class MyRepresentativesViewModel(private val _application: Application) :
         }
     }
 
-    fun openWebsite(view: View, urls: List<String>) {
+    fun openWebsite(urls: List<String>) {
         val url = if (urls.isNotEmpty()) urls[0] else return // Grab the first item
         val i = Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) }
-        view.context.startActivity(i)
+        _application.baseContext.startActivity(i)
     }
 
-    fun openFacebook(view: View, channels: List<Channel>) {
+    fun openFacebook(channels: List<Channel>) {
         // Get the Facebook channel if there's one
         val facebookChannel =
             channels.find { channel -> channel.type == "Facebook" } ?: return
@@ -82,10 +82,10 @@ class MyRepresentativesViewModel(private val _application: Application) :
             Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse("https://www.facebook.com/${facebookChannel.type}/")
             }
-        view.context.startActivity(i)
+        _application.baseContext.startActivity(i)
     }
 
-    fun openTwitter(view: View, channels: List<Channel>) {
+    fun openTwitter(channels: List<Channel>) {
         // Get the Twitter channel if there's one
         val twitterChannel =
             channels.find { channel -> channel.type == "Twitter" } ?: return
@@ -94,7 +94,7 @@ class MyRepresentativesViewModel(private val _application: Application) :
             Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse("https://www.twitter.com/${twitterChannel.id}/")
             }
-        view.context.startActivity(i)
+        _application.baseContext.startActivity(i)
     }
 
     private fun checkPermissions(context: Context) =

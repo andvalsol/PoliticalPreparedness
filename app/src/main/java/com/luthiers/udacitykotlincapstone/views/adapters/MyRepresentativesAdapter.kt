@@ -35,6 +35,8 @@ class MyRepresentativesAdapter(private val _viewModel: MyRepresentativesViewMode
     }
 
     inner class MyRepresentativesViewHolder(val binding: SingleRepresentativeBinding): RecyclerView.ViewHolder(binding.root) {
+
+
         fun bind(representative: SingleRepresentative) {
             with(binding) {
                 singleRepresentative = representative
