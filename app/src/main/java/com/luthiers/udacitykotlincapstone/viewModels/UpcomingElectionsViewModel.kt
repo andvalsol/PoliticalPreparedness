@@ -2,6 +2,7 @@ package com.luthiers.udacitykotlincapstone.viewModels
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.luthiers.udacitykotlincapstone.NetworkUtils
 import com.luthiers.udacitykotlincapstone.data.local.SingleElectionRoomDatabase
 import com.luthiers.udacitykotlincapstone.data.models.SingleElection
 import com.luthiers.udacitykotlincapstone.data.network.INetworkDataSource
@@ -10,6 +11,7 @@ import com.luthiers.udacitykotlincapstone.data.network.retrofit
 import com.luthiers.udacitykotlincapstone.data.repositiories.MainRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+
 
 class UpcomingElectionsViewModel(_application: Application): AndroidViewModel(_application) {
 
@@ -25,9 +27,14 @@ class UpcomingElectionsViewModel(_application: Application): AndroidViewModel(_a
     val elections = liveData(Dispatchers.IO) {
         _isLoading.postValue(true)
 
-        val networkResult = mainRepository.getElectionsFromNetwork()
-        val arrayOfElections = networkResult.elections.toTypedArray()
-        mainRepository.insertElections(*arrayOfElections)
+        // Check if there's internet connection
+        val hasInternetConnection = NetworkUtils(_application.baseContext).isConnected()
+
+        if (hasInternetConnection){
+            val networkResult = mainRepository.getElectionsFromNetwork()
+            val arrayOfElections = networkResult.elections.toTypedArray()
+            mainRepository.insertElections(*arrayOfElections)
+        }
 
         _isLoading.postValue(false)
 
